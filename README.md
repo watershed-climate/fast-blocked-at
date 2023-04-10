@@ -48,19 +48,6 @@ profiler.
 
 [ba]: https://github.com/naugtur/blocked-at
 
-## Formal Verification
-
-This module is formally verified to be deadlock-free via PlusCal/TLA+. Refer to
-`verify_tla.sh` for steps on how to create the TLA+ specification and verify it.
-
-The formal verification is checked on every CI run and changes to the C++ code
-should be matched with changes to the PlusCal code.
-
 ## Contributing
 
-Contributions are welcome! This project is hosted on sourcehut.
-
-* [Project homepage](https://sr.ht/~kvakil/fast-blocked-at/)
-* [Source code](https://git.sr.ht/~kvakil/fast-blocked-at)
-* [Mailing list for bug reports, feature requests, help, et cetera](https://lists.sr.ht/~kvakil/fast-blocked-at-discuss)
-* CI badge: [![builds.sr.ht status](https://builds.sr.ht/~kvakil/fast-blocked-at.svg)](https://builds.sr.ht/~kvakil/fast-blocked-at?)
+We're not accepting contributions at this time.
