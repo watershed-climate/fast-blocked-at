@@ -16,6 +16,7 @@
   "files": [
     "LICENSE",
     "binding.gyp",
+    "index.d.ts",
     "index.js",
     "native.cc",
     "package.json",
