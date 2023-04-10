@@ -1,0 +1,34 @@
+image: debian/stable
+packages:
+- openjdk-17-jre-headless
+secrets:
+- 0345e7eb-fab5-4b88-b934-3b106dc38b0e
+sources:
+- git@git.sr.ht:~kvakil/fast-blocked-at
+environment:
+  node_versions: v18.6.0 v16.16.0 v14.19.3
+tasks:
+- download-node: |
+    for node_version in $node_versions; do
+        curl https://nodejs.org/dist/${node_version}/node-${node_version}-linux-x64.tar.xz | tar xJf - &
+    done
+    wait
+- compile-and-test: |
+    cd fast-blocked-at
+    original_path=$PATH
+    for node_version in ${node_versions}; do
+        node_dir=~/node-${node_version}-linux-x64
+        export PATH=${node_dir}/bin:$original_path
+        npm install --build-from-source
+        npm test
+
+        git clean -dfx
+    done
+- install-tla: |
+    git clone https://github.com/pmer/tla-bin.git
+    cd tla-bin
+    ./download_or_update_tla.sh
+    sudo ./install.sh
+- check-tla: |
+    cd fast-blocked-at
+    ./verify_tla.sh

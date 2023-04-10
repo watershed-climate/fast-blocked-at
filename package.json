@@ -1,0 +1,37 @@
+{
+  "name": "fast-blocked-at",
+  "version": "0.0.3",
+  "description": "Detect event loop blockages and get a stack trace; fast enough for production.",
+  "main": "index.js",
+  "scripts": {
+    "test": "tap --no-check-coverage",
+    "install": "node-gyp rebuild"
+  },
+  "author": "Keyhan Vakil <kvakil@npm.kvakil.me>",
+  "license": "MPL-2.0",
+  "gypfile": true,
+  "devDependencies": {
+    "tap": "^16.3.0"
+  },
+  "files": [
+    "LICENSE",
+    "binding.gyp",
+    "index.js",
+    "native.cc",
+    "package.json",
+    "package-lock.json",
+    "README.md"
+  ],
+  "readme": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/watershedclimate/fast-blocked-at"
+  },
+  "homepage": "https://github.com/watershedclimate/fast-blocked-at",
+  "keywords": [
+    "performance",
+    "block",
+    "event",
+    "loop"
+  ]
+}
