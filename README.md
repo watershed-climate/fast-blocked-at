@@ -5,7 +5,7 @@ Detect event loop blockages and get a stack trace; fast enough for production.
 ## Installation
 
 ```
-npm install fast-blocked-at
+npm install https://github.com/watershed-climate/fast-blocked-at/
 ```
 (Tested with NodeJS 14, 16 & 18.)
 
