@@ -1,6 +1,6 @@
 {
   "name": "fast-blocked-at",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Detect event loop blockages and get a stack trace; fast enough for production.",
   "main": "index.js",
   "scripts": {
