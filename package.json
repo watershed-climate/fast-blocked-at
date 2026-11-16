@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "test": "tap --no-check-coverage",
-    "build:local": "npx --yes node-gyp@13.1.0 rebuild --directory src",
     "build:prebuilds": "scripts/build-prebuilds.sh"
   },
   "author": "Keyhan Vakil <kvakil@npm.kvakil.me>",

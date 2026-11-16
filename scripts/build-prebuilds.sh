@@ -33,7 +33,7 @@ mkdir "$TMP/bin"
 for tool in node npm npx; do ln -s "$(command -v "$tool")" "$TMP/bin/$tool"; done
 apple() { env -i HOME="$HOME" PATH="$TMP/bin:/usr/bin:/bin:/usr/sbin:/sbin" "$@"; }
 
-# A leftover local build would be picked up by index.js instead of the prebuilt.
+# node-gyp builds into src/build/; remove it so each build starts clean.
 clean_local_build() { apple npx --yes "$NODE_GYP" clean --directory src >/dev/null; }
 
 build_darwin() {
