@@ -4,10 +4,14 @@ Detect event loop blockages and get a stack trace; fast enough for production.
 
 ## Installation
 
+Install a tagged release from GitHub, for example with pnpm:
+
 ```
-npm install https://github.com/watershed-climate/fast-blocked-at/
+pnpm add github:watershed-climate/fast-blocked-at#v0.1.0
 ```
-(Tested with NodeJS 14, 16 & 18.)
+
+Installing never compiles anything: the package ships prebuilt binaries (see
+[Prebuilt binaries](#prebuilt-binaries)). It currently supports Node 24.
 
 ## Usage
 
@@ -47,6 +51,49 @@ may include more advanced functionality like automatically starting the CPU
 profiler.
 
 [ba]: https://github.com/naugtur/blocked-at
+
+## Prebuilt binaries
+
+The native addon lives in `src/`. Instead of compiling it during install, the
+package ships prebuilt binaries in `prebuilds/<platform>-<arch>/node.abi<N>.node`,
+where `N` is the Node ABI version (`process.versions.modules`; 137 for Node 24).
+`index.js` loads the file matching the running platform and Node, so installing
+this package runs no install script and needs no compiler.
+
+Shipped platforms: `darwin-arm64`, `darwin-x64`, `linux-x64`, `linux-arm64`.
+The Linux binaries are built in `manylinux_2_28` containers and need glibc 2.28
+or newer, the same as Node 24 itself (Debian 10+, Ubuntu 20.04+, RHEL 8+).
+There are no builds for musl (Alpine) or Windows; on those, or on a Node
+version with no matching binary, `require('fast-blocked-at')` throws an error
+naming the missing platform and ABI.
+
+### When to rebuild
+
+- When moving to a new Node major version. Binaries for one major work on any
+  release of that major, so minor and patch upgrades don't need a rebuild.
+- When `src/native.cc` or `src/binding.gyp` changes. `index.js` only loads the
+  binaries in `prebuilds/`, so rebuild them before running `npm test` against
+  a change.
+
+### How to rebuild
+
+On an Apple Silicon Mac with Docker running, and with the Node major from
+`.node-version` installed:
+
+1. Update `.node-version` if you're moving to a new Node major.
+2. Run `npm run build:prebuilds`. It builds the macOS binaries locally with
+   Apple's toolchain and the Linux binaries in `manylinux_2_28` containers,
+   smoke-tests each one, and prints their SHA-256 checksums.
+3. Run `npm test`.
+4. Bump `version` in `package.json`, commit it together with the new files in
+   `prebuilds/` on a branch, and open a PR. Never push to `main`. Put the
+   checksums and the commit you built from in the PR description. When moving
+   to a new Node major, keep the previous major's files until every consumer
+   has upgraded.
+5. After the PR merges, tag the merged commit with the new version, e.g.
+   `v0.2.0`.
+6. Update the tag in the consumer, e.g. `fast-blocked-at` in ghg's
+   `pnpm-workspace.yaml`.
 
 ## Contributing
 

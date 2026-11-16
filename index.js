@@ -3,7 +3,25 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-const addon = require('./build/Release/addon.node');
+const fs = require('fs');
+const path = require('path');
+
+// Installs never compile, so load the prebuilt binary for this platform and
+// Node ABI; see "Prebuilt binaries" in README.md.
+function loadAddon() {
+    const target = `${process.platform}-${process.arch}`;
+    const abi = process.versions.modules;
+    const binary = path.join(__dirname, 'prebuilds', target, `node.abi${abi}.node`);
+    if (!fs.existsSync(binary)) {
+        throw new Error(
+            `fast-blocked-at has no prebuilt binary for ${target} on Node ABI ${abi} (Node ${process.version}). ` +
+            'See "Prebuilt binaries" in its README.md.'
+        );
+    }
+    return require(binary);
+}
+
+const addon = loadAddon();
 module.exports = function (callback, options) {
     const {interval, threshold} = options;
     if (typeof callback !== 'function') {
